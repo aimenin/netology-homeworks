@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "adate": "./task1.js"
+    "adate": "./task1.js",
+    "guess": "./task2.js"
   },
   "author": "aimenin",
   "license": "ISC",
