@@ -20,8 +20,8 @@ const createRandom = () => {
  * @param {object} result
  */
 const writeFile = (fileName, result) => {
-  if (fs.existsSync(`${fileName}.json`)) {
-    const readStream = fs.createReadStream(`${fileName}.json`);
+  if (fs.existsSync(fileName)) {
+    const readStream = fs.createReadStream(fileName);
 
     let data = '';
     readStream
@@ -34,13 +34,13 @@ const writeFile = (fileName, result) => {
 
         dataFromFile.push(result);
 
-        const writeStream = fs.createWriteStream(`${fileName}.json`);
+        const writeStream = fs.createWriteStream(fileName);
         writeStream.write(JSON.stringify(dataFromFile));
       });
   } else {
     const results = [result];
 
-    const writeStream = fs.createWriteStream(`${fileName}.json`);
+    const writeStream = fs.createWriteStream(fileName);
 
     writeStream.write(JSON.stringify(results));
   }
