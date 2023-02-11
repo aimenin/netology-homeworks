@@ -7,7 +7,7 @@ const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 
 /**
- *
+ * Create random number for first task
  * @returns Random number between 1 and 2
  */
 const createRandom = () => {
@@ -15,7 +15,7 @@ const createRandom = () => {
 };
 
 /**
- *
+ * Function to read and write file for first task
  * @param {string} fileName - name of file to read and write
  * @param {object} result
  */
@@ -46,9 +46,13 @@ const writeFile = (fileName, result) => {
   }
 };
 
-const rl = readline.createInterface({ input, output });
-
+/**
+ * Function to ask question for first task
+ * @param {string} fileName - name of file to read and write
+ */
 const askQuestion = (fileName) => {
+  const rl = readline.createInterface({ input, output });
+
   rl.question('Введите число от 1 до 2: ', (answer) => {
     if (isNaN(+answer) || +answer > 2 || +answer < 1) {
       return;
@@ -72,6 +76,36 @@ const askQuestion = (fileName) => {
   });
 };
 
+/**
+ * Function to show statistic for second task
+ * @param {string} fileName - name of file to read and write
+ */
+const showStatistic = (fileName) => {
+  const readStream = fs.createReadStream(fileName);
+
+  let data = '';
+  readStream
+    .setEncoding('UTF8')
+    .on('data', (chank) => {
+      data += chank;
+    })
+    .on('end', () => {
+      const dataFromFile = JSON.parse(data);
+
+      const amountOfGames = dataFromFile.length;
+      const wins = dataFromFile.filter((game) => game.result === true).length;
+      const loses = dataFromFile.filter((game) => game.result === false).length;
+      const percents = (100 / (wins + loses)) * wins;
+
+      console.log('amountOfGames: ' + amountOfGames);
+      console.log('wins: ' + wins);
+      console.log('loses: ' + loses);
+      console.log('percents of winning: ' + percents);
+
+      return;
+    });
+};
+
 const argv = yargs(hideBin(process.argv))
   .command(
     'game',
@@ -85,6 +119,22 @@ const argv = yargs(hideBin(process.argv))
     },
     (argv) => {
       askQuestion(argv.filename);
+      return;
+    }
+  )
+  .command(
+    'stat',
+    '',
+    (yargs) => {
+      return yargs.option('file', {
+        alias: 'f',
+        type: 'string',
+        describe: 'file to read file',
+      });
+    },
+    (argv) => {
+      showStatistic(argv.filename);
+      return;
     }
   )
   .help().argv;
