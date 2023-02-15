@@ -90,7 +90,7 @@ const server = http.createServer((req, res) => {
       res.write(getForm());
       res.write(`<h2>Weather report: </h2>`);
       fetch(
-        `http://api.weatherstack.com/current?access_key=d511ea545c832fa27f0ebf26c1455e36&query=${query.city}`
+        `http://api.weatherstack.com/current?access_key=${process.env.API_KEY}&query=${query.city}`
       )
         .then((response) => response.json())
         .then((data) => {

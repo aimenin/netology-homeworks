@@ -4,7 +4,8 @@
   "description": "homework for netology number 1",
   "main": "index.js",
   "scripts": {
-    "homework3": "nodemon ./homework3/index.js"
+    "homework3_dev": "nodemon -r dotenv/config ./homework3/index.js",
+    "homework3_build": "node -r dotenv/config ./homework3/index.js"
   },
   "bin": {
     "adate": "./homework1/task1.js",
@@ -14,6 +15,7 @@
   "author": "aimenin",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "readline": "^1.3.0",
     "yargs": "^17.6.2"
   },
