@@ -16,7 +16,7 @@ const getForm = () => `
       class="btn btn-sm btn-outline-success" 
       type="submit"
     >
-      Запросить
+      Submit
     </button>
   </div>
   </form>
@@ -26,12 +26,12 @@ const weatherInfoLayout = (fullInfo) => {
   console.log(fullInfo);
 
   const where = `
-  <div class="card" style="width: 18rem;">
+  <div class="card mr-1" style="width: 18rem;">
     <div class="card-body">
       <h5 class="card-title">Location: </h5>
-      <p class="card-text">${fullInfo.location.name}</p>
-      <p class="card-text">${fullInfo.location.country}</p>
-      <p class="card-text">${fullInfo.location.region}</p>
+      <p class="card-text">City: ${fullInfo.location.name}</p>
+      <p class="card-text">Country: ${fullInfo.location.country}</p>
+      <p class="card-text">Region: ${fullInfo.location.region}</p>
     </div>
   </div>
   `;
@@ -40,14 +40,14 @@ const weatherInfoLayout = (fullInfo) => {
   <div class="card" style="width: 18rem;">
     <div class="card-body">
       <h5 class="card-title">Weather: </h5>
-      <p class="card-text">${fullInfo.current.feelslike}</p>
-      <p class="card-text">${fullInfo.current.visibility}</p>
-      <p class="card-text">${fullInfo.current.cloudcover}</p>
+      <p class="card-text">Feels like: ${fullInfo.current.feelslike}&#8451;</p>
+      <p class="card-text">Visibility: ${fullInfo.current.visibility}km</p>
+      <p class="card-text">Coudcover: ${fullInfo.current.cloudcover}%</p>
     </div>
   </div>`;
 
   const layout = `
-    <div>
+    <div class="d-flex align-items-center">
       ${where}
       ${weather}
     </div>
@@ -79,13 +79,16 @@ const server = http.createServer((req, res) => {
 
   if (pathname === '/' || pathname === '/index') {
     res.write(layoutStart);
-    res.write(`<h2>Добро пожаловать на сайт прогноза погоды!</h2>`);
+    res.write(`<h2>Welcome to weather check!</h2>`);
+    res.write(`<h3>Write down city name: </h3>`);
     res.write(getForm());
     res.write(layoutEnd);
   } else if (pathname === '/search') {
     if (method === 'GET') {
       res.write(layoutStart);
-      res.write(`<h2>Прогноз погоды для города:</h2>`);
+      res.write(`<h2>Search for a new city: </h2>`);
+      res.write(getForm());
+      res.write(`<h2>Weather report: </h2>`);
       fetch(
         `http://api.weatherstack.com/current?access_key=d511ea545c832fa27f0ebf26c1455e36&query=${query.city}`
       )
